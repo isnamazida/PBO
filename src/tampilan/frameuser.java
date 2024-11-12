@@ -3,20 +3,53 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package tampilan;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
 import kelass.User;
+
 
 /**
  *
  * @author na
  */
 public class frameuser extends javax.swing.JFrame {
-
-    /**
-     * Creates new form frameuser
-     */
     public frameuser() {
         initComponents();
+        loadTable();
+        reset();
+    }
+    void loadTable(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("User Name");
+        model.addColumn("Email");
+        model.addColumn("Full Name");
+        model.addColumn("Status");
+        
+        try {
+            User us = new User();
+            ResultSet data = us.tampilUser();
+            
+            while (data.next()) {
+                model.addRow(new Object[]{
+                    data.getString("user_name"),
+                    data.getString("user_email"),
+                    data.getString("user_fullname"),
+                    data.getInt("user_status") == 1 ? "Aktif" : "Tidak Aktif"
+                });
+            }
+        } catch (SQLException sQLException) {
+        }
+        
+        tUser.setModel(model);
+    }
+    void reset(){
+        tUsername.setText(null);
+        tUsername.setEditable(true);
+        tEmail.setText(null);
+        tPassword.setText(null);
+        tFullname.setText(null);
+        cStatus.setSelectedItem(null);
     }
 
     /**
@@ -28,7 +61,8 @@ public class frameuser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cStatus = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -36,40 +70,41 @@ public class frameuser extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         tUsername = new javax.swing.JTextField();
         tEmail = new javax.swing.JTextField();
-        tPassword = new javax.swing.JTextField();
         tFullname = new javax.swing.JTextField();
+        tPassword = new javax.swing.JPasswordField();
         bTambah = new javax.swing.JButton();
+        bUbah = new javax.swing.JButton();
+        bHapus = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tUser = new javax.swing.JTable();
+        cStatus = new javax.swing.JComboBox<>();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aktif", "Tidak Aktif" }));
-        cStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cStatusActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("User Name");
+        jLabel1.setText("Username");
 
         jLabel2.setText("Email");
 
         jLabel3.setText("Password");
 
-        jLabel4.setText("Full Name");
+        jLabel4.setText("Fullname");
 
         jLabel5.setText("Status");
 
-        tEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tEmailActionPerformed(evt);
-            }
-        });
-
-        tFullname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tFullnameActionPerformed(evt);
-            }
-        });
+        tPassword.setText("jPasswordField1");
 
         bTambah.setText("TAMBAH");
         bTambah.addActionListener(new java.awt.event.ActionListener() {
@@ -78,92 +113,170 @@ public class frameuser extends javax.swing.JFrame {
             }
         });
 
+        bUbah.setText("UBAH");
+        bUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bUbahActionPerformed(evt);
+            }
+        });
+
+        bHapus.setText("HAPUS");
+        bHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bHapusActionPerformed(evt);
+            }
+        });
+
+        tUser.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tUserMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tUser);
+
+        cStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aktif", "Tidak Aktif" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
-                        .addGap(124, 124, 124)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                            .addComponent(tEmail)
-                            .addComponent(tPassword)
-                            .addComponent(tFullname)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(72, 72, 72)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tFullname)
+                                    .addComponent(tPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                    .addComponent(cStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(bTambah)))
-                .addContainerGap(62, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(bTambah)
+                        .addGap(37, 37, 37)
+                        .addComponent(bUbah)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bHapus)))
+                .addGap(70, 70, 70)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(tEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(tFullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(32, 32, 32)
-                .addComponent(bTambah)
-                .addContainerGap())
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(tUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(tEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(tPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(tFullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(cStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bTambah)
+                            .addComponent(bUbah)
+                            .addComponent(bHapus))))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tEmailActionPerformed
-
-    private void tFullnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tFullnameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tFullnameActionPerformed
-
     private void bTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTambahActionPerformed
-        // TODO add your handling code here:
         try {
-            User User = new User();
-            User.setUser_name(tUsername.getText());
-            User.setUser_email(tEmail.getText());
-            User.setUser_password(tPassword.getText());
-            User.setUser_fullname(tFullname.getText());
+            User user = new User();
+            user.setUser_name(tUsername.getText());
+            user.setUser_email(tEmail.getText());
+            user.setUser_password(tPassword.getText());
+            user.setUser_fullname(tFullname.getText());
             if (cStatus.getSelectedItem().equals("aktif")) {
-                User.setUser_status(1);
+                user.setUser_status(1);
             } else {
-                User.setUser_status(0);
+                user.setUser_status(0);
             }
-            
+            user.tambahuser();
         } catch (Exception e) {
         }
+        reset();
+        loadTable();
     }//GEN-LAST:event_bTambahActionPerformed
 
-    private void cStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cStatusActionPerformed
+    private void bHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHapusActionPerformed
+        User usr = new User();
+        usr.setUser_name(tUsername.getText());
+        usr.hapusUser();
+        loadTable();
+        reset();
+    }//GEN-LAST:event_bHapusActionPerformed
+
+    private void tUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tUserMouseClicked
+        int baris = tUser.rowAtPoint(evt.getPoint());
+        String username = tUser.getValueAt(baris, 0).toString();
+        String email = tUser.getValueAt(baris, 1).toString();
+        String fullname = tUser.getValueAt(baris, 2).toString();
+        String status = tUser.getValueAt(baris, 3).toString();
+        
+        tUsername.setText(username);
+        tUsername.setEditable(false);
+        tEmail.setText(email);
+        tFullname.setText(fullname);
+        cStatus.setSelectedItem(status);
+    }//GEN-LAST:event_tUserMouseClicked
+
+    private void bUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUbahActionPerformed
+        User usr = new User();
+        usr.setUser_name(tUsername.getText());
+        usr.setUser_email(tEmail.getText());
+        usr.setUser_password(tPassword.getText());
+        usr.setUser_fullname(tFullname.getText());
+        if (cStatus.getSelectedItem().equals("Aktif")) {
+            usr.setUser_status(1);
+        } else {
+            usr.setUser_status(0);
+        }
+        usr.ubahUser();
+        loadTable();
+        reset();
+    }//GEN-LAST:event_bUbahActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,16 +314,22 @@ public class frameuser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bHapus;
     private javax.swing.JButton bTambah;
+    private javax.swing.JButton bUbah;
     private javax.swing.JComboBox<String> cStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField tEmail;
     private javax.swing.JTextField tFullname;
-    private javax.swing.JTextField tPassword;
+    private javax.swing.JPasswordField tPassword;
+    private javax.swing.JTable tUser;
     private javax.swing.JTextField tUsername;
     // End of variables declaration//GEN-END:variables
 }
